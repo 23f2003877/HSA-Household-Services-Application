@@ -12,7 +12,7 @@ from backend.cache import cache, init_cache
 def create_app(config_class=Config):
     app = Flask(
         __name__,
-        static_folder=os.path.join(os.path.dirname(__file__), "static"),
+        static_folder=os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend"),
         static_url_path="/static",
     )
     app.config.from_object(config_class)
@@ -43,7 +43,7 @@ def create_app(config_class=Config):
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def spa(path):
-        static_dir = os.path.join(os.path.dirname(__file__), "static")
+        static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
         if path and os.path.exists(os.path.join(static_dir, path)):
             return send_from_directory(static_dir, path)
         return send_from_directory(static_dir, "index.html")
